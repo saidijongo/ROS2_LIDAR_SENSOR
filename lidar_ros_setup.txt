@@ -1,1 +1,149 @@
 
+sudo apt install software-properties-common
+sudo add-apt-repository universe
+
+sudo apt update && sudo apt install curl
+sudo curl -sSL  https://raw.githubusercontent.com/ros/rosdistro/master/ros.key sudo curl -sSL
+
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg]   http://packages.ros.org/ros2/ubuntu/ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http
+
+sudo apt update
+sudo apt upgrade
+sudo apt install ros-humble-desktop
+sudo apt install ros-dev-tools
+cecho "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+
+############
+cd ~
+
+mkdir -p ldlidar_ros2_ws/src
+
+cd ldlidar_ros2_ws/src
+
+git clone  https://github.com/ldrobotSensorTeam/ldlidar_stl_ros2.git
+#Or
+git clone  https://gitee.com/ldrobotSensorTeam/ldlidar_stl_ros2.git
+########
+
+cd ~/ldlidar_ros2_ws
+sudo chmod 777 /dev/ttyUSB0
+
+###################
+#!/usr/bin/env python3
+from launch import LaunchDescription
+from launch_ros.actions import Node
+
+'''
+Parameter Description:
+---
+- Set laser scan directon: 
+  1. Set counterclockwise, example: {'laser_scan_dir': True}
+  2. Set clockwise,        example: {'laser_scan_dir': False}
+- Angle crop setting, Mask data within the set angle range:
+  1. Enable angle crop fuction:
+    1.1. enable angle crop,  example: {'enable_angle_crop_func': True}
+    1.2. disable angle crop, example: {'enable_angle_crop_func': False}
+  2. Angle cropping interval setting:
+  - The distance and intensity data within the set angle range will be set to 0.
+  - angle >= 'angle_crop_min' and angle <= 'angle_crop_max' which is [angle_crop_min, angle_crop_max], unit is degress.
+    example:
+      {'angle_crop_min': 135.0}
+      {'angle_crop_max': 225.0}
+      which is [135.0, 225.0], angle unit is degress.
+'''
+
+def generate_launch_description():
+  # LDROBOT LiDAR publisher node
+  ldlidar_node = Node(
+      package='ldlidar_stl_ros2',
+      executable='ldlidar_stl_ros2_node',
+      name='LD06',
+      output='screen',
+      parameters=[
+        {'product_name': 'LDLiDAR_LD06'},
+        {'topic_name': 'scan'},
+        {'frame_id': 'base_laser'},
+        {'port_name': '/dev/ttyUSB0'},
+        {'port_baudrate': 230400},
+        {'laser_scan_dir': True},
+        {'enable_angle_crop_func': False},
+        {'angle_crop_min': 135.0},
+        {'angle_crop_max': 225.0}
+      ]
+  )
+
+  # base_link to base_laser tf node
+  base_link_to_laser_tf_node = Node(
+    package='tf2_ros',
+    executable='static_transform_publisher',
+    name='base_link_to_base_laser_ld06',
+    arguments=['0','0','0.18','0','0','0','base_link','base_laser']
+  )
+
+
+  # Define LaunchDescription variable
+  ld = LaunchDescription()
+
+  ld.add_action(ldlidar_node)
+  ld.add_action(base_link_to_laser_tf_node)
+
+  return ld
+#############
+
+cd ~/ldlidar_ros2_ws
+colcon build
+
+cd ~/ldlidar_ros2_ws
+source install/setup.bash
+
+echo source ~/ldlidar_ros2_ws/install/setup.bash >> ~/.bashrc
+source ~/.bashrc
+
+ros2 launch ldlidar_stl_ros2 ld19.launch.py
+ros2 launch ldlidar_stl_ros2 viewer_ld19.launch.py
+rviz2
+
+
+
+
+
+
+
+##############RPLiDAR##################
+mkdir -p ~/ros2_ws/src
+cd ~/ros2_ws/src
+git clone -b ros2 https://github.com/Slamtec/rplidar_ros.git
+
+cd ~/ros2_ws/
+source /opt/ros/<rosdistro>/setup.bash
+colcon build --symlink-install
+source ./install/setup.bash
+$echo "source <your_own_ros2_ws>/install/setup.bash" >> ~/.bashrc
+$source ~/.bashrc
+
+sudo chmod 777 /dev/ttyUSB0
+
+cd src/rpldiar_ros/
+source scripts/create_udev_rules.sh
+
+##LIDAR MODELS
+ros2 launch rplidar_ros view_rplidar_a1_launch.py
+ros2 launch rplidar_ros view_rplidar_a2m7_launch.py
+ros2 launch rplidar_ros view_rplidar_a2m8_launch.py
+ros2 launch rplidar_ros view_rplidar_a2m12_launch.py
+ros2 launch rplidar_ros view_rplidar_a3_launch.py
+ros2 launch rplidar_ros view_rplidar_s1_launch.py
+ros2 launch rplidar_ros view_rplidar_s1_tcp_launch.py
+ros2 launch rplidar_ros view_rplidar_s2_launch.py
+ros2 launch rplidar_ros view_rplidar_s2e_launch.py
+ros2 launch rplidar_ros view_rplidar_s3_launch.py
+ros2 launch rplidar_ros view_rplidar_t1_launch.py
+ros2 launch rplidar_ros view_rplidar_c1_launch.py
+
+
+
+
+
+#######################################
+##https://github.com/Slamtec/rplidar_ros
+
