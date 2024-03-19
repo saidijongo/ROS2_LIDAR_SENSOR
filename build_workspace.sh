@@ -24,3 +24,4 @@ colcon build --symlink-install
 
 #terminal cmd
 #./build_workspace.sh
+#chmod +x build_workspace.sh
