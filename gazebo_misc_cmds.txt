@@ -1,0 +1,123 @@
+########################################
+sudo apt install ros-humble-navigation2 ros-humble-nav2-bringup
+sudo apt install ros-humble-turtlebot3*
+
+curl -sSL http://get.gazebosim.org | sh
+sudo apt update
+sudo apt install gazebo11
+gazebo --version
+sudo apt install ros-humble-gazebo-plugins
+
+ROS2 Humble installed from binary via (https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html)
+
+
+curl -sSL http://get.gazebosim.org | sh
+
+sudo apt install libgazebo-dev
+
+apt-cache search gazebo
+
+sudo apt-get install libignition-gazebo7 libignition-gazebo7-dev
+sudo apt-get install libignition-gazebo6 libignition-gazebo6-dev
+dpkg -l | grep gazebo
+
+sudo apt-get install ros-humble-ros-gz
+echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+
+
+Commands Used
+sudo sh -c 'echo "deb http://packages.osrfoundation.org/gaz... `lsb_release -cs` main" /etc/apt/sources.list.d/gazebo-stable.list'
+
+cat /etc/apt/sources.list.d/gazebo-stable.list
+wget https://packages.osrfoundation.org/ga... -O - | sudo apt-key add -
+sudo apt update
+sudo apt install gazebo -y
+gazebo
+
+Useful Links
+VPS/VDS - https://www.mivocloud.com/
+Gazebo - https://classic.gazebosim.org/tutoria...
+
+sudo apt remove gazebo*
+sudo apt purge gazebo*
+sudo apt autoremove
+
+sudo apt remove libignition-gazebo6 libignition-gazebo6-dev libignition-gazebo6-plugins
+sudo apt remove libignition-gazebo7 libignition-gazebo7-dev
+########################################
+######################################
+#####################################
+
+sudo apt install ros-humble-navigation2
+sudo apt install ros-humble-nav2-bringup
+
+
+WORKSPACE_PATH="Documents/simulation_ws"
+mkdir -p $HOME/$WORKSPACE_PATH/src
+cd $HOME/$WORKSPACE_PATH/src
+
+git ls-remote --heads https://github.com/ros-planning/navigation2.git
+
+git clone https://github.com/ros-planning/navigation2.git --branch humble-devel
+cd $HOME/$WORKSPACE_PATH
+#or
+git clone https://github.com/ros-planning/navigation2.git
+
+
+source /opt/ros/humble/setup.bash
+
+sudo apt install python3-rosdep2
+rosdep update
+rosdep install -y -r -q --from-paths src --ignore-src --rosdistro humble
+
+apt search geographic_msgs
+sudo apt install ros-humble-geographic-msgs
+sudo apt install ros-humble-test-msgs
+
+#sudo apt remove --purge '^ros-humble-*'
+#sudo apt install --reinstall ros-humble-desktop
+#sudo apt install --reinstall ros-humble-*
+
+
+
+cd ~/Documents/simulation_ws
+rosdep update
+
+colcon build --symlink-install
+colcon build --symlink-install --cmake-clean-cache
+
+
+cd ~/Documents/simulation_ws
+source /opt/ros/humble/setup.bash
+source install/setup.bash
+ros2 launch aws_robomaker_small_warehouse_world no_roof_small_warehouse.launch.py
+
+
+#########################
+cd ~/lidar_depthcam_ws/src
+cd navigation2
+git checkout humble-devel
+
+cd ~/lidar_depthcam_ws
+rosdep install -y -r -q --from-paths src --ignore-src --rosdistro humble
+source /opt/ros/humble/setup.bash
+#########################
+
+cd ~/lidar_depthcam_ws
+git pull
+
+colcon build --symlink-install --cmake-clean-first
+rosdep install -y --from-paths src --ignore-src --rosdistro <your_ros_distro>
+
+
+cat ~/lidar_depthcam_ws/build/nav2_util/log/build.log
+
+colcon build --symlink-install --packages-select nav2_util
+###########################################3
+
+source install/setup.bash
+
+sudo apt install python3-roslaunch
+roslaunch turtlebot3_gazebo turtlebot3_world.launch
+
+
