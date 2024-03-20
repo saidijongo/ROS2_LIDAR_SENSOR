@@ -119,5 +119,82 @@ source install/setup.bash
 
 sudo apt install python3-roslaunch
 roslaunch turtlebot3_gazebo turtlebot3_world.launch
+##############################################################
+#############################################################
+############################################################
+export TURTLEBOT3_MODEL = waffle #bashrc
+source .bashrc
+printenv | grep TURTLE
 
+gazebo
+ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py (enter)
+ros2 run turtlebot3_teleop teleop_keyboard
+#########################
+###########################
+sudo apt update
+# sudo apt upgrade
+
+source /opt/ros/humble/setup.bash
+
+sudo apt install ros-humble-slam-toolbox -y
+sudo apt install ros-humble-navigation2 -y
+sudo apt install ros-humble-nav2-bringup -y
+sudo apt install ros-humble-turtlebot3* -y
+
+sudo apt install ros-humble-robot-localization -y
+
+
+
+sudo apt update
+sudo apt install gazebo -y
+sudo apt install ros-humble-gazebo-ros -y  
+https://gazebosim.org/docs/garden/install_ubuntu
+
+
+sudo apt-get install lsb-release wget gnupg
+sudo wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
+
+##
+sudo apt-get update
+sudo apt-get install gz-garden -y
+#sudo apt remove gz-garden && sudo apt autoremove
+
+#gazebo__Fortress
+sudo apt-get install -y wget python3-pip lsb-release gnupg curl python3-vcstool python3-colcon-common-extensions git && \
+sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'  && \
+wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add -  && \
+sudo apt-get update  && \
+sudo apt-get install -y libignition-gazebo6-dev
+
+sudo apt-get install -y libignition-gazebo6-dev
+ign gazebo
+sudo apt remove ignition-fortress && sudo apt autoremove
+
+
+#sudo apt install ros-humble-gazebo-ros-pkgs
+sudo find / -name gazebo
+sudo find / -name gazebo -type f -executable
+sudo find / -name gazebo -type f -executable 2>/dev/null
+
+
+######
+apt search ros-humble-gazebo-ros-pkgs
+sudo apt install ros-humble-gazebo-ros-pkgs
+
+source ~/lidar_depthcam_ws/install/local_setup.bash
+ros2 launch nav2_bringup tb3_simulation_launch.py
+#################
+#################
+
+sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable focal main" > /etc/apt/sources.list.d/gazebo-stable.list'
+
+wget https://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
+
+sudo apt update
+
+sudo apt install ros-humble-gazebo-ros-pkgs
+source /opt/ros/humble/setup.bash
+###############
+##########################endEE###########################
 
